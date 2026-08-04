@@ -23,10 +23,10 @@ Implement **Users** at `/admin/users`:
 4. Confirm dialog + optimistic remove with rollback on failure
 
 Use `Permission.MANAGE_USERS` and existing guards (`lib/server-guards.ts`). Extend `app/api/users/route.js` and `app/admin/users/page.tsx`. Match patterns in `app/admin/roles/page.tsx`.
+   
+## Evaluation         
 
-## Evaluation   
-
-Backend correctness · Frontend quality · Code judgment · Fork README (decisions / trade-offs)   
+Backend correctness · Frontend quality · Code judgment · Fork README (decisions / trade-offs)      
 
 ## Submit    
 

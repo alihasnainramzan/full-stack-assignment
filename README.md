@@ -1,4 +1,4 @@
-# Worklo — Senior Full-Stack Assignment
+# Kontrora — Senior Full-Stack Assignment
 
 PSA platform (Next.js App Router + Supabase). Build one feature end-to-end in **2–3 hours**. Quality over completeness.
 

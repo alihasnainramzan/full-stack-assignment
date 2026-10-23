@@ -247,6 +247,31 @@ export async function canManageAccounts(
 }
 
 /**
+ * Check if user can manage estimates in an account
+ */
+export async function canManageEstimates(
+  userProfile: UserWithRoles | null,
+  accountId: string,
+  supabaseClient?: any,
+): Promise<boolean> {
+  return hasPermission(userProfile, Permission.MANAGE_ESTIMATES, { accountId }, supabaseClient);
+}
+
+/**
+ * Check if user can view estimates in an account
+ */
+export async function canViewEstimates(
+  userProfile: UserWithRoles | null,
+  accountId: string,
+  supabaseClient?: any,
+): Promise<boolean> {
+  return (
+    (await hasPermission(userProfile, Permission.VIEW_ALL_ESTIMATES, undefined, supabaseClient)) ||
+    (await hasPermission(userProfile, Permission.VIEW_ESTIMATES, { accountId }, supabaseClient))
+  );
+}
+
+/**
  * @deprecated Use hasPermission with Permission.MANAGE_PROJECTS + context
  */
 export async function canEditProject(

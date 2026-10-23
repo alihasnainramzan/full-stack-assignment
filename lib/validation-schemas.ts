@@ -485,3 +485,55 @@ export type SubmitFormResponseInput = z.infer<typeof submitFormResponseSchema>;
 export type SendClientInvitationInput = z.infer<typeof sendClientInvitationSchema>;
 export type AcceptClientInvitationInput = z.infer<typeof acceptClientInvitationSchema>;
 export type SubmitClientFeedbackInput = z.infer<typeof submitClientFeedbackSchema>;
+
+// ============================================================================
+// REVENUE & BILLING (ESTIMATES) SCHEMAS
+// ============================================================================
+
+export const estimateLineItemInputSchema = z.object({
+  id: uuidSchema.optional(),
+  description: z.string().min(1, 'Line item description is required').max(1000, 'Description too long'),
+  quantity: z.number().positive('Quantity must be greater than 0').max(1000000, 'Quantity too large'),
+  unit_price_cents: z.number().int('Unit price must be in integer cents').min(0, 'Unit price cannot be negative'),
+});
+
+export const createEstimateSchema = z.object({
+  project_id: optionalUuidSchema.optional(),
+  estimate_number: z.string().min(1, 'Estimate number is required').max(50, 'Estimate number too long').optional(),
+  title: z.string().min(1, 'Title is required').max(200, 'Title too long'),
+  description: z.string().max(3000, 'Description too long').optional().nullable(),
+  currency: z.string().length(3, 'Currency must be 3-letter ISO code').default('USD'),
+  tax_rate_basis_points: z
+    .number()
+    .int()
+    .min(0, 'Tax rate cannot be negative')
+    .max(10000, 'Tax rate cannot exceed 100%')
+    .default(0),
+  line_items: z.array(estimateLineItemInputSchema).min(1, 'At least one line item is required'),
+  status: z.enum(['draft', 'sent']).optional().default('draft'),
+});
+
+export const updateEstimateSchema = z.object({
+  title: z.string().min(1).max(200).optional(),
+  description: z.string().max(3000).optional().nullable(),
+  project_id: optionalUuidSchema.optional(),
+  currency: z.string().length(3).optional(),
+  tax_rate_basis_points: z.number().int().min(0).max(10000).optional(),
+  status: z.enum(['draft', 'sent', 'accepted', 'rejected']).optional(),
+  rejection_reason: z.string().max(2000).optional().nullable(),
+  line_items: z.array(estimateLineItemInputSchema).min(1).optional(),
+});
+
+export const getEstimatesQuerySchema = z.object({
+  status: z.enum(['draft', 'sent', 'accepted', 'rejected']).optional(),
+  project_id: uuidSchema.optional(),
+  search: z.string().max(100).optional(),
+  limit: z.string().regex(/^\d+$/).transform(Number).optional().default(50),
+  offset: z.string().regex(/^\d+$/).transform(Number).optional().default(0),
+});
+
+export type EstimateLineItemInput = z.infer<typeof estimateLineItemInputSchema>;
+export type CreateEstimateInput = z.infer<typeof createEstimateSchema>;
+export type UpdateEstimateInput = z.infer<typeof updateEstimateSchema>;
+export type GetEstimatesQuery = z.infer<typeof getEstimatesQuerySchema>;
+

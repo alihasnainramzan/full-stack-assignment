@@ -29,3 +29,12 @@ ON CONFLICT (id) DO NOTHING;
 -- 3. Fix invalid 'active' status values left from previous seed runs
 UPDATE projects SET status = 'in_progress' WHERE status = 'active';
 UPDATE accounts  SET status = 'in_progress' WHERE status = 'active';
+
+-- 4. Update roles with financial permissions
+UPDATE roles 
+SET permissions = permissions || '{"manage_estimates": true, "view_all_estimates": true, "view_estimates": true}'::jsonb 
+WHERE id = 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee';
+
+UPDATE roles 
+SET permissions = permissions || '{"view_all_estimates": true, "view_estimates": true}'::jsonb 
+WHERE id = 'dddddddd-dddd-dddd-dddd-dddddddddddd';

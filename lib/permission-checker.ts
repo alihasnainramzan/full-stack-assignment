@@ -542,6 +542,9 @@ export async function checkPermissionHybrid(
 
       // Capacity
       [Permission.VIEW_TEAM_CAPACITY]: [Permission.VIEW_ALL_CAPACITY],
+
+      // Revenue & Billing (Estimates)
+      [Permission.VIEW_ESTIMATES]: [Permission.VIEW_ALL_ESTIMATES],
     } as Record<string, unknown>;
 
     // 5. Check base permission

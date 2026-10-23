@@ -94,6 +94,13 @@ export enum Permission {
   // ========================================
   MANAGE_CLIENT_INVITES = 'manage_client_invites', // Manage client invitations (admin/account manager permission)
   // Note: Client access and approval permissions are now hardcoded based on is_client flag
+
+  // ========================================
+  // REVENUE & BILLING (ESTIMATES) PERMISSIONS
+  // ========================================
+  MANAGE_ESTIMATES = 'manage_estimates',
+  VIEW_ESTIMATES = 'view_estimates',
+  VIEW_ALL_ESTIMATES = 'view_all_estimates',
 }
 
 // Human-readable permission definitions
@@ -347,6 +354,27 @@ export const PermissionDefinitions: Record<
       'Send client invitations and view client feedback (admin/account manager permission)',
     category: 'Client Portal',
   },
+
+  // ========================================
+  // REVENUE & BILLING (ESTIMATES) PERMISSIONS
+  // ========================================
+  [Permission.MANAGE_ESTIMATES]: {
+    name: 'Manage Estimates',
+    description:
+      'Create, update, send, and manage billing estimates for assigned accounts',
+    category: 'Revenue & Billing',
+  },
+  [Permission.VIEW_ESTIMATES]: {
+    name: 'View Estimates',
+    description: 'View estimates and financial breakdowns for assigned accounts',
+    category: 'Revenue & Billing',
+  },
+  [Permission.VIEW_ALL_ESTIMATES]: {
+    name: 'View All Estimates',
+    description: 'View all estimates across the organization (override)',
+    category: 'Revenue & Billing',
+    isOverride: true,
+  },
 };
 
 // Permission categories for UI grouping (excludes deprecated permissions)
@@ -378,6 +406,9 @@ export const PermissionCategories = {
   ),
   'Client Portal': Object.values(Permission).filter(
     (p: Permission) => (PermissionDefinitions as any)[p as string]?.category === 'Client Portal',
+  ),
+  'Revenue & Billing': Object.values(Permission).filter(
+    (p: Permission) => (PermissionDefinitions as any)[p as string]?.category === 'Revenue & Billing',
   ),
 };
 

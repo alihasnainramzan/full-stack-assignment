@@ -50,6 +50,7 @@ supabase/.branches/
 !supabase/seed.sql
 !supabase/seed-roles.sql
 !supabase/escrows.sql
+!supabase/estimates.sql
 !supabase/migrations/*.sql
 
 # =============================================================
